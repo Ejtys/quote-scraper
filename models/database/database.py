@@ -54,6 +54,24 @@ class Database:
         cur.close()
         return result
 
+
+    @classmethod
+    def unsafe_insert(cls, table_name:str, value_names:tuple[str], values:tuple):
+        value_names_str = ''
+        question_marks_str = ''
+
+        for name in value_names:
+            value_names_str += name + ", "
+            question_marks_str += "?, "
+
+        #removes trailing comas and spaces
+        value_names_str = value_names_str[:-2]
+        question_marks_str = question_marks_str[:-2]
+
+        QUERY = f'INSERT INTO {table_name} ({value_names_str}) VALUES ({question_marks_str});'
+        print(QUERY)
+        Database.execute(QUERY, values)
+
     """Get record by value or empty tuple if record does not exist. If many record with the same value returns first."""
     @classmethod
     def get_by_unique_value(cls, table_name:str, value_name:str, value) -> tuple:
@@ -118,7 +136,7 @@ class Database:
     """Printing table in terminal"""
     @classmethod
     def print_table(cls, table_name: str) -> None:
-        for x in Database.fetch_all('books'):
+        for x in Database.fetch_all(table_name):
             print(x)
 
 Database.create_tables()
