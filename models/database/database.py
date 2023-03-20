@@ -1,5 +1,3 @@
-import os, sys
-
 
 import sqlite3
 
@@ -68,21 +66,57 @@ class Database:
     def is_unique_value_free(cls, table_name:str, value_name:str, value) -> bool:
         return not Database.get_by_unique_value(table_name, value_name, value)
 
-    """Creates new table if not exists."""
+    """Creates new tables if not exists."""
     @classmethod
-    def create_table_books(cls):
-        QUERY = """CREATE TABLE IF NOT EXISTS books(
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        title TEXT NOT NULL UNIQUE,
-                        price_cents INTEGER NOT NULL,
-                        description TEXT NOT NULL,
-                        category TEXT NOT NULL
-        );
+    def create_tables(cls):
+        LOCATIONS_TABLE = """   CREATE TABLE IF NOT EXISTS locations (
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    city TEXT NOT NULL,
+                                    country TEXT NOT NULL
+                                );
         """
-        Database.execute(QUERY)
+
+        AUTHORS_TABLE = """     CREATE TABLE IF NOT EXISTS authors(
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    name TEXT NOT NULL,
+                                    birthplace INTEGER NOT NULL,
+                                    birthdate INTEGER NOT NULL,
+                                    FOREIGN KEY (birthplace) REFERENCES locations(id)
+                                );
+        """
+
+        TAGS_TABLE = """        CREATE TABLE IF NOT EXISTS tags(
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    name TEXT UNIQUE NOT NULL
+                                );
+        """
+
+        QUOTES_TABLE = """      CREATE TABLE IF NOT EXISTS quotes(
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    author_id INTEGER NOT NULL,
+                                    quote TEXT NOT NULL UNIQUE,
+                                    FOREIGN KEY (author_id) REFERENCES authors(id)
+                                );   
+        """
+
+        QUOTES_TAGS_TABLE = """ CREATE TABLE IF NOT EXISTS quotes_tags(
+                                    tag_id INTEGER NOT NULL,
+                                    quote_id INTEGER NOT NULL,
+                                    FOREIGN KEY (tag_id) REFERENCES tags(id),
+                                    FOREIGN KEY (quote_id) REFERENCES quotes(id)
+                                );
+        """        
+
+        Database.execute(LOCATIONS_TABLE)
+        Database.execute(AUTHORS_TABLE)
+        Database.execute(TAGS_TABLE)
+        Database.execute(QUOTES_TABLE)
+        Database.execute(QUOTES_TAGS_TABLE)
 
     """Printing table in terminal"""
     @classmethod
     def print_table(cls, table_name: str) -> None:
         for x in Database.fetch_all('books'):
             print(x)
+
+Database.create_tables()
