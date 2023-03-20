@@ -25,6 +25,7 @@ class Database:
     def fetch_all(cls, table_name, limit:int = None, offset:int=None, file_name:str = DATABASE_FILE) -> list[tuple]:
         conn = sqlite3.connect(file_name)
         cur = conn.cursor()
+        cur.execute('PRAGMA foreign_key=on;')
         if limit and offset:
             cur.execute(f"SELECT * FROM {table_name} LIMIT {limit} OFFSET {offset};")
         elif limit:
@@ -43,6 +44,7 @@ class Database:
     def query_fetch(cls, query:str, values:tuple =None, file_name:str = DATABASE_FILE) -> list[tuple]:
         conn = sqlite3.connect(file_name)
         cur = conn.cursor()
+        cur.execute('PRAGMA foreign_key=on;')
         if values:
             cur.execute(query, values)
         else:
