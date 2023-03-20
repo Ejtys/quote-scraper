@@ -54,7 +54,7 @@ class Database:
         cur.close()
         return result
 
-
+    """Insert values into table. Don't allow users to type value_names."""
     @classmethod
     def unsafe_insert(cls, table_name:str, value_names:tuple[str], values:tuple):
         value_names_str = ''
@@ -69,7 +69,6 @@ class Database:
         question_marks_str = question_marks_str[:-2]
 
         QUERY = f'INSERT INTO {table_name} ({value_names_str}) VALUES ({question_marks_str});'
-        print(QUERY)
         Database.execute(QUERY, values)
 
     """Get record by value or empty tuple if record does not exist. If many record with the same value returns first."""
@@ -98,7 +97,7 @@ class Database:
 
         AUTHORS_TABLE = """     CREATE TABLE IF NOT EXISTS authors(
                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                    name TEXT NOT NULL,
+                                    name TEXT NOT NULL UNIQUE,
                                     birthplace INTEGER NOT NULL,
                                     birthdate INTEGER NOT NULL,
                                     FOREIGN KEY (birthplace) REFERENCES locations(id)
