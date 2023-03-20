@@ -14,5 +14,3 @@ class TagData:
         Database.unsafe_insert(TagData.TABLE_NAME, TagData.VALUE_NAMES, (name,))
         return True
     
-TagData.insert('love')
-Database.print_table(TagData.TABLE_NAME)

@@ -16,6 +16,3 @@ class QuoteData:
             return False
         Database.unsafe_insert(QuoteData.TABLE_NAME, QuoteData.VALUE_NAMES, (author_id, quote))
         return True
-
-QuoteData.insert(1, "Kocham cie, martus")
-Database.print_table(QuoteData.TABLE_NAME)
