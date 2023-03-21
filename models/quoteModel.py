@@ -3,6 +3,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 from database.database import Database
 from database.quoteData import QuoteData
+from database.tagData import TagData
 
 from models.authorModel import Author
 
@@ -61,3 +62,42 @@ class Quote:
             l.append(Quote.from_tuple(b))
         return l
     
+
+class Tag:
+
+    def __init__(self, name:str, id:int = -1):
+        self.ID = id
+        self.name = name
+
+        if self.ID == -1 and Tag.from_name(name):
+            self.ID = Tag.from_name(name).ID
+        elif self.ID == -1:
+            self.save()
+            self.ID = Tag.from_name(name).ID
+
+    def save(self):
+        TagData.insert(self.name)
+
+    def __repr__(self) -> str:
+        return f'<Tag {self.ID}: {self.name}>'
+
+    @classmethod
+    def from_name(cls, name:str):
+        t = Database.get_by_unique_value(TagData.TABLE_NAME, 'name', name)
+        if t:
+            return Tag(t[1], t[0])
+        
+    @classmethod
+    def all(cls):
+        t = Database.fetch_all(TagData.TABLE_NAME)
+        l = []
+        for x in t:
+            l.append(Tag(x[1], x[0]))
+        return l
+    
+
+Tag('love')
+Tag('hate')
+
+for x in Tag.all():
+    print(x)
