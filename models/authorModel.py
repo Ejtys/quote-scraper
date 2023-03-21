@@ -44,7 +44,8 @@ class Author:
     @classmethod
     def from_id(cls, id:int):
         t = Database.get_by_unique_value(AuthorData.TABLE_NAME, 'id', id)
-        return Author.from_tuple(t)
+        if t:
+            return Author.from_tuple(t)
     
     @classmethod
     def from_name(cls, name:str):

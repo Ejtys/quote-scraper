@@ -1,4 +1,7 @@
-from database import Database
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+
+from database.database import Database
 
 class QuoteData:
     TABLE_NAME= 'quotes'
