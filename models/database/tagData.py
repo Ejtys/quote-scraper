@@ -24,7 +24,7 @@ class QuoteTagData:
     VALUE_NAMES =('quote_id', 'tag_id')
 
     @classmethod
-    def insert(cls, quote_id:str, tag_id:str) -> bool:
+    def insert(cls, quote_id:int, tag_id:int) -> bool:
         #Checks if there is already such a entry.
         if Database.query_fetch(f"SELECT * FROM {QuoteTagData.TABLE_NAME} WHERE quote_id = ? and tag_id = ?;",
                                     (quote_id, tag_id)):

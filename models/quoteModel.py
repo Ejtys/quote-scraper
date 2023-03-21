@@ -4,6 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from database.database import Database
 from database.quoteData import QuoteData
 from database.tagData import TagData
+from database.tagData import QuoteTagData
 
 from models.authorModel import Author
 
@@ -34,6 +35,10 @@ class Quote:
 
     def save(self):
         QuoteData.insert(self.author.ID, self.quote)
+
+    def add_tag(self, tag:str):
+        t = Tag(tag)
+        t.connect(self.ID)
 
     def __repr__(self) -> str:
         return f"<Quote {self.ID}: \"{self.quote}\" by {self.author.name}>"
@@ -80,6 +85,9 @@ class Tag:
 
     def __repr__(self) -> str:
         return f'<Tag {self.ID}: {self.name}>'
+    
+    def connect(self, quote_id:int):
+        QuoteTagData.insert(quote_id, self.ID)
 
     @classmethod
     def from_name(cls, name:str):
@@ -96,8 +104,4 @@ class Tag:
         return l
     
 
-Tag('love')
-Tag('hate')
 
-for x in Tag.all():
-    print(x)
