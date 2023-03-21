@@ -44,11 +44,3 @@ class Location:
     @classmethod
     def _get_unique(cls, city:str, country:str):
         return Location.from_tuple(LocationData.get_unique(city, country))
-
-    
-for x in Location.all():
-    print(x)
-
-Location("Sosnowiec", 'Poland')
-Location("Gliwice", 'Poland')
-Location("Szczecin", 'Poland')
