@@ -40,6 +40,10 @@ class Quote:
         t = Tag(tag)
         t.connect(self.ID)
 
+    @property
+    def tags(self) -> list:
+        return [Tag.from_id(x)for x in QuoteTagData.get_tags_for_quote(self.ID)]
+
     def __repr__(self) -> str:
         return f"<Quote {self.ID}: \"{self.quote}\" by {self.author.name}>"
 
@@ -89,6 +93,16 @@ class Tag:
     def connect(self, quote_id:int):
         QuoteTagData.insert(quote_id, self.ID)
 
+    @property
+    def quotes(self) -> list:
+        return [Quote.from_id(x) for x in QuoteTagData.get_quotes_for_tag(self.ID)]
+
+    @classmethod
+    def from_id(cls, id:int):
+        t = Database.get_by_unique_value(TagData.TABLE_NAME, 'id', id)
+        if t:
+            return Tag(t[1], t[0])
+        
     @classmethod
     def from_name(cls, name:str):
         t = Database.get_by_unique_value(TagData.TABLE_NAME, 'name', name)
@@ -102,6 +116,6 @@ class Tag:
         for x in t:
             l.append(Tag(x[1], x[0]))
         return l
-    
 
-
+t = Tag('love')
+print(t.quotes)

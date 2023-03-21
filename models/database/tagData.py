@@ -32,3 +32,13 @@ class QuoteTagData:
         Database.unsafe_insert(QuoteTagData.TABLE_NAME, QuoteTagData.VALUE_NAMES, (quote_id, tag_id))
         return True
     
+    @classmethod
+    def get_tags_for_quote(cls, quote_id):
+        t = Database.query_fetch(f"SELECT * FROM {QuoteTagData.TABLE_NAME} WHERE quote_id = ?;", (quote_id,))
+        return [x[0] for x in t]
+
+    @classmethod
+    def get_quotes_for_tag(cls, tag_id):
+        t = Database.query_fetch(f"SELECT * FROM {QuoteTagData.TABLE_NAME} WHERE tag_id = ?;", (tag_id,))
+        return [x[1] for x in t]
+
