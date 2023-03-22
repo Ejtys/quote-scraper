@@ -117,5 +117,3 @@ class Tag:
             l.append(Tag(x[1], x[0]))
         return l
 
-t = Tag('love')
-print(t.quotes)
