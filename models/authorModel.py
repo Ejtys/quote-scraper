@@ -35,7 +35,7 @@ class Author:
         AuthorData.insert(self.name, self.birthplace.ID, self.birth_timestamp)
 
     def __repr__(self) -> str:
-        return f"<Author {self.ID}: {self.name} from {self.birthplace.city} in {self.birthplace.country}"
+        return f"<Author {self.ID}: {self.name} from {self.birthplace.city} in {self.birthplace.country}>"
     
     @classmethod
     def from_tuple(cls, t:tuple):

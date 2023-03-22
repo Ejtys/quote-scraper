@@ -1,8 +1,8 @@
 import os, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
-from database.database import Database
-from database.locationData import LocationData
+from models.database.database import Database
+from models.database.locationData import LocationData
 
 class Location:
 
