@@ -15,7 +15,7 @@ class QuoteData:
                                     (quote,)):
             return False
         #Checks there is author with given id
-        if Database.is_unique_value_free('locations', 'id', author_id):
+        if Database.is_unique_value_free('authors', 'id', author_id):
             return False
         Database.unsafe_insert(QuoteData.TABLE_NAME, QuoteData.VALUE_NAMES, (author_id, quote))
         return True

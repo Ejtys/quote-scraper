@@ -1,10 +1,10 @@
 import os, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
-from database.database import Database
-from database.quoteData import QuoteData
-from database.tagData import TagData
-from database.tagData import QuoteTagData
+from models.database.database import Database
+from models.database.quoteData import QuoteData
+from models.database.tagData import TagData
+from models.database.tagData import QuoteTagData
 
 from models.authorModel import Author
 
@@ -28,6 +28,8 @@ class Quote:
 
         if self.ID == -1 and not Quote.from_quote(quote):
             self.save()
+            print(quote)
+            print(self.author)
             self.ID = Quote.from_quote(quote).ID
         elif self.ID == -1 and Quote.from_quote(quote):
             self.ID = q = Quote.from_quote(quote).ID

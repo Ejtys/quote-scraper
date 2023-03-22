@@ -13,12 +13,12 @@ def scrap_author_page(url:str):
     soup = BeautifulSoup(html, 'html.parser')
 
     location = get_location(soup)
-
+ 
     date = get_date_stamp(soup)
 
     name = get_name(soup)
 
-    print(Author(name, location, date))
+    Author(name, location, date)
 
 
 def get_location(soup:BeautifulSoup) -> Location:
@@ -37,4 +37,3 @@ def get_name(soup) -> str:
     #html is a little bit broken on the page so solution is weird as well.
     return soup.select('h3')[0].text.split('\n')[0].strip()
 
-scrap_author_page('http://quotes.toscrape.com/author/Albert-Einstein/')
