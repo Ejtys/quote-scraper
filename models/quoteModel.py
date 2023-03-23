@@ -22,14 +22,12 @@ class Quote:
             self.author = author
         
         if not isinstance(self.author, Author):
-            raise ValueError("Not proper value for Author. Pass Author obj. If you are sure author exists in db you can pass id or name.")
+            raise ValueError(f"Author object expected")
         
         self.quote = quote
 
         if self.ID == -1 and not Quote.from_quote(quote):
             self.save()
-            print(quote)
-            print(self.author)
             self.ID = Quote.from_quote(quote).ID
         elif self.ID == -1 and Quote.from_quote(quote):
             self.ID = q = Quote.from_quote(quote).ID

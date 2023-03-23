@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 from models.locationModel import Location
 from models.authorModel import Author
 
-
-def scrap_author_page(url:str):
+"""Scrapes data from quotes.toscrape.com author's page."""
+def scrap_author_page(url:str) -> Author:
     html = requests.get(url).content
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -18,7 +18,12 @@ def scrap_author_page(url:str):
 
     name = get_name(soup)
 
-    Author(name, location, date)
+    a = Author(name, location, date)
+    print()
+    print(a)
+    return a
+
+    
 
 
 def get_location(soup:BeautifulSoup) -> Location:

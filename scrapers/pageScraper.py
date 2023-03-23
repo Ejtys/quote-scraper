@@ -7,8 +7,9 @@ from bs4 import BeautifulSoup
 from models.quoteModel import Quote
 from models.authorModel import Author
 
-from authorScraper import scrap_author_page
+from scrapers.authorScraper import scrap_author_page
 
+"""Scrapes data from one page of quotes on quotes.toscrape.com."""
 def scrape_quote_page(url:str):
     html = requests.get(url).content
     soup = BeautifulSoup(html, 'html.parser')
@@ -30,12 +31,16 @@ def scrape_quote(quote_html):
     for tag in tags:
         quote.add_tag(tag)
     
+    print()
+    print(quote)
+    print(quote.tags)
+    
 
 def get_author(quote_html) -> Author:
     author_name = quote_html.select('.author')[0].text.strip()
     if not Author.from_name(author_name):
         link = "http://quotes.toscrape.com/" + quote_html.select('a')[0]['href']
-        scrap_author_page(link)
+        return scrap_author_page(link)
     a =  Author.from_name(author_name)
     return a
 
